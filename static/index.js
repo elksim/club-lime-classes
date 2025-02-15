@@ -16,7 +16,6 @@ document.addEventListener("DOMContentLoaded", () => {
   updateTable(tableEl)
 });
 
-
 /** 
  * @param {[]string} classes 
  * @param {HTMLTableElement} tableEl 
@@ -26,6 +25,8 @@ function updateTable(tableEl) {
   const tbody = tableEl.tBodies[0];
   tbody.innerHTML = "";
 
+
+  console.log("classes.length: ", classes.length);
   for (const _class of classes) {
     let row = document.createElement("tr");
     for (const datum of _class) {
@@ -36,7 +37,6 @@ function updateTable(tableEl) {
     tbody.appendChild(row);
   }
 }
-
 
 function handleInputChange(event) {
   console.log("event: ", event);

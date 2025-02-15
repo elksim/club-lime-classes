@@ -2,12 +2,11 @@ package main
 
 import (
 	"encoding/csv"
-	"encoding/json"
+	"fmt"
+	"html/template"
 	"log"
 	"net/http"
 	"os"
-	"sort"
-	"text/template"
 	"time"
 )
 
@@ -16,9 +15,9 @@ var (
 	lastFetched time.Time
 )
 var (
-	instructorsJSON string
-	locationsJSON   string
-	workoutsJSON    string
+	instructors []string
+	locations   []string
+	workouts    []string
 )
 
 func fetchCSV() {
@@ -37,39 +36,35 @@ func fetchCSV() {
 	lastFetched = time.Now()
 }
 
-func jsonifySet(set map[string]struct{}) string {
+func setToSortedArray(set map[string]struct{}) []string {
 	uniqueArray := []string{}
 	for value := range set {
 		uniqueArray = append(uniqueArray, value)
 	}
-	sort.Strings(uniqueArray)
-	json, err := json.Marshal(uniqueArray)
-	if err != nil {
-		log.Fatal(err)
-	}
-	return string(json)
+	// sort.Strings(uniqueArray)
+	return uniqueArray
 }
 
-// update the data based on the current rawData
 func updateData() {
 	if len(rawData) == 0 {
 		return
 	}
-	locations := map[string]struct{}{}
-	instructors := map[string]struct{}{}
-	workouts := map[string]struct{}{}
+	locationsSet := map[string]struct{}{}
+	instructorsSet := map[string]struct{}{}
+	workoutsSet := map[string]struct{}{}
 	for _, row := range rawData[1:] {
 		workout, instructor, location := row[2], row[3], row[4]
-		workouts[workout] = struct{}{}
-		instructors[instructor] = struct{}{}
-		locations[location] = struct{}{}
+		workoutsSet[workout] = struct{}{}
+		instructorsSet[instructor] = struct{}{}
+		locationsSet[location] = struct{}{}
 	}
-	workoutsJSON = jsonifySet(workouts)
-	instructorsJSON = jsonifySet(instructors)
-	locationsJSON = jsonifySet(locations)
+	workouts = setToSortedArray(workoutsSet)
+	instructors = setToSortedArray(instructorsSet)
+	locations = setToSortedArray(locationsSet)
 }
 
 func main() {
+	fmt.Println("Server starting..")
 	if lastFetched.IsZero() || time.Since(lastFetched) > 24*time.Hour {
 		fetchCSV()
 		updateData()
@@ -85,23 +80,17 @@ func main() {
 		}
 
 		tableHeaders := [5]string{"Date", "Time", "Workout", "Instructor", "Location"}
-
-		classes, err := json.Marshal(rawData[1:])
-		if err != nil {
-			log.Fatal(err)
-		}
-		classesJSON := string(classes)
-
+		classes := rawData[1:]
 		data := struct {
 			TableHeaders [5]string
-			Classes      string
-			Locations    string
-			Workouts     string
+			Classes      [][]string
+			Locations    []string
+			Workouts     []string
 		}{
 			TableHeaders: tableHeaders,
-			Classes:      classesJSON,
-			Locations:    locationsJSON,
-			Workouts:     workoutsJSON,
+			Classes:      classes,
+			Locations:    locations,
+			Workouts:     workouts,
 		}
 
 		w.Header().Set("Content-Type", "text/html; charset=utf-8")
