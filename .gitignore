@@ -1,0 +1,5 @@
+
+.vscode/
+tmp/
+my_tmp/
+.air.toml
