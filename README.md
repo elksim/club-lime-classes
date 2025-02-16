@@ -14,4 +14,4 @@ Once it's complete, I plan to deploy it (likely on Fly.io).
 - filter the table by the chosen options
 - want to generate the index page once per day when we fetch the new csv and then just serve this generated page
 - settings page where we can cut down the list of locations and workouts that get shown on the main page as options
-- actually source the rawData automatically
+- source the raw data CSV from club lime, register a fly volume and write and read the raw data from there

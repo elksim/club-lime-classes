@@ -1,5 +1,8 @@
 
 .vscode/
+
+.air.toml
+
 tmp/
 my_tmp/
-.air.toml
+graveyard.txt
