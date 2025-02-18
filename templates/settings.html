@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>club-lime-classes</title>
+  <style> {{ .Style }} </style>
+  <style> {{ .Style2 }} </style>
+</head>
+
+<body>
+  <div class="container">
+    <h1 class="item">settings</h1>
+    <a href="/"><i>back to main page</i></a>
+    <div class="padding"></div>
+    <div id="locationsDiv" class="group">
+      <h3>locations</h3>
+      <div class="item">
+        <label for="state">state</label>
+        <select id="selectedState" name="options" onchange="handleSelectedStateChange(event)">
+          <option value="" disabled selected>Select your state</option>
+          <option value="ACT">ACT</option>
+          <option value="NSW">NSW</option>
+          <option value="NT">NT</option>
+          <option value="WA">SA</option>
+          <option value="VIC">VIC</option>
+          <option value="WA">WA</option>
+        </select>
+      </div>
+      <div id="toggleAllLocations" class="item" onclick="handleToggleAllLocationsClick(event)">select all</div>
+      <div id="locations" class="item">
+      </div>
+      <div id="save" onclick="handleSaveLocations(event)">save</div>
+    </div>
+    <div id="workouts">
+    </div>
+    <div class="padding"></div>
+    <div id="workoutsDiv">
+      <h3> workouts</h3>
+      <div id="toggleAllWorkouts" class="item" onclick="handleToggleAllWorkoutsClick(event)">select all</div>
+    </div>
+    <div class="padding"></div>
+  </div>
+
+  <script> {{ .Script }} </script>
+  <script>
+    locations = {{ .Locations }}
+    workouts = {{ .Workouts }}
+    stateToLocations = {{ .StateToLocations }}
+  </script>
+</body>
+
+</html>

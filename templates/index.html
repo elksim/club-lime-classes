@@ -5,26 +5,30 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>club lime classes</title>
+  <style> {{ .Style }} </style>
 </head>
 
 <body>
-  <h1>club lime classes</h1>
-  <h5><i>not affiliated with club lime in any way - class info sourced from https://www.clublime.com.au/classes/ - made
-      by elksim</i>
-  </h5>
-  <table border="1">
-    <thead>
-      <tr>{{range .TableHeaders}}<th>{{.}}</th>{{end}}</tr>
-    </thead>
-    <tbody>
-    </tbody>
-  </table>
-  <script>
-    let classes = {{ .Classes }};
-    let workouts = {{ .Workouts }};
-    let locations = {{ .Locations }};
-  </script>
-  <script type="module" src="/static/index.js"></script>
+  <div class="container">
+    <h1 class="item">club lime classes</h1>
+    <h2 class="item"><i>not affiliated with club lime in any way - class info from
+        https://www.clublime.com.au/classes/ - classes shown may be cancelled or full (for now) - made by elksim</i>
+    </h2>
+    <div><a href="/settings/">settings</a></div>
+    <table border="1">
+      <thead>
+        <tr>{{range .TableHeaders}}<th>{{.}}</th>{{end}}</tr>
+      </thead>
+      <tbody>
+      </tbody>
+    </table>
+    <script>
+      let classes = {{ .Classes }};
+      let workouts = {{ .Workouts }};
+      let locations = {{ .Locations }};
+    </script>
+    <script type="module"> {{ .Script }} </script>
+  </div>
 </body>
 
 </html>

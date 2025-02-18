@@ -6,8 +6,6 @@ Club Lime provides a way to explore all of the classes that they have scheduled 
 
 This website makes it easier to explore the scheduled classes.
 
-Once it's complete, I plan to deploy it (likely on Fly.io).
-
 ## todo
 
 - options above the table where we can select which locations and which workouts we are interested in
@@ -15,3 +13,6 @@ Once it's complete, I plan to deploy it (likely on Fly.io).
 - want to generate the index page once per day when we fetch the new csv and then just serve this generated page
 - settings page where we can cut down the list of locations and workouts that get shown on the main page as options
 - source the raw data CSV from club lime, register a fly volume and write and read the raw data from there
+- might be cool to store the raw data CSV once per day
+- unfortunately the csv doesn't include data on which classes are full and which are cancelled, but I think we might be able to get this information actually
+- pottenntially possible to make the classes clickable and take you to club lime to view and book, but I'm not sure about that.

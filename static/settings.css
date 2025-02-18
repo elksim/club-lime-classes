@@ -1,0 +1,31 @@
+.location {
+    margin: 2px;
+    color: grey;
+    user-select: none;
+}
+
+#toggleAllLocations {
+    user-select: none;
+}
+
+.location.selected {
+    color: green;
+    font-weight: 800;
+}
+
+.location.deselected {
+    color: grey;
+}
+
+.padding {
+    padding: 4px;
+}
+
+#save {
+    font-size: 20px;
+    padding: 0 6px;
+    border-radius: 4px;
+    background-color: lightblue;
+    border: 1px solid black;
+    user-select: none;
+}

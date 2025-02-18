@@ -1,7 +1,11 @@
 
 .vscode/
 
+dist/
+
 .air.toml
+
+main_test.go
 
 tmp/
 my_tmp/
