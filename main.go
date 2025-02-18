@@ -8,6 +8,7 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"sort"
 	"strings"
 	"text/template"
 )
@@ -61,6 +62,7 @@ func extractUniqueEntries(rawData [][]string) [3][]string {
 }
 
 func marshalStrings(data []string) string {
+	sort.Strings(data)
 	tmp, err := json.Marshal(data)
 	if err != nil {
 		log.Fatal(err)
@@ -120,15 +122,16 @@ func buildIndexPage(rawData [][]string, workoutsJSON string, instructorsJSON str
 var (
 	cachedIndexTemplate []byte
 	workoutsJSON        string
-	instructorJSON      string
+	instructorsJSON     string
 	locationsJSON       string
 )
 
 func update() {
 	rawData := fetchRawData()
 	tmp := extractUniqueEntries(rawData)
-	workouts, locations, instructors := marshalStrings(tmp[0]), marshalStrings(tmp[1]), marshalStrings(tmp[2])
-	cachedIndexTemplate = buildIndexPage(rawData, workouts, instructors, locations)
+	workoutsJSON, locationsJSON, instructorsJSON = marshalStrings(tmp[0]), marshalStrings(tmp[1]), marshalStrings(tmp[2])
+	cachedIndexTemplate = buildIndexPage(rawData, workoutsJSON, instructorsJSON, locationsJSON)
+
 }
 
 func main() {
@@ -206,15 +209,15 @@ func main() {
 // similar cases to consider.
 var stateToLocations = map[string][]string{
 	"NSW": {
-		"ALBION PARK", "ANU AQUATICS", "BLACKTOWN", "BURWOOD", "FIVE DOCK", "GLADESVILLE",
+		"ALBION PARK", "BLACKTOWN", "BURWOOD", "CAMPBELLTOWN", "FIVE DOCK", "GLADESVILLE",
 		"GOULBURN - LANSDOWNE STREET", "GREGORY HILLS (LIVE WELL)", "HIIT REPUBLIC CORRIMAL",
 		"HIIT REPUBLIC QUEANBEYAN", "HIIT REPUBLIC SHELLHARBOUR", "HIIT REPUBLIC WOLLONGONG",
-		"LAVINGTON", "MOONEE BEACH", "PENRITH - MULGOA ROAD", "PYRMONT", "QUEANBEYAN", "RHODES",
+		"KENNEDY PARK", "LAVINGTON", "MOONEE BEACH", "PENRITH - MULGOA ROAD", "PYRMONT", "QUEANBEYAN", "RHODES",
 		"ROSEBERY", "ROUSE HILL", "SHELLHARBOUR", "ST PETERS", "TOORMINA", "WAGGA WAGGA",
 		"WOLLONGONG",
 	},
 	"ACT": {
-		"ANU", "BELCONNEN (CISAC PLATINUM)", "BELCONNEN (OATLEY COURT)", "CISAC LADIES ONLY",
+		"ANU", "ANU AQUATICS", "BELCONNEN (CISAC PLATINUM)", "BELCONNEN (OATLEY COURT)", "CISAC LADIES ONLY",
 		"CONDER", "GOLD CREEK COUNTRY CLUB", "GUNGAHLIN PLATINUM", "HIIT REPUBLIC BRADDON",
 		"HIIT REPUBLIC CANBERRA CITY", "HIIT REPUBLIC CISAC", "HIIT REPUBLIC ERINDALE",
 		"HIIT REPUBLIC GOULBURN", "HIIT REPUBLIC GUNGAHLIN", "HIIT REPUBLIC KINGSTON",
@@ -223,7 +226,7 @@ var stateToLocations = map[string][]string{
 	},
 	"QLD": {
 		"ASPLEY", "BROADBEACH", "CLEVELAND", "DEAGON", "HIIT REPUBLIC REDCLIFFE",
-		"HIIT REPUBLIC YAMANTO", "IPSWICH", "MOLOOLABA", "NOOSAVILLE", "NORMAN PARK (ACTIVE LIFE)",
+		"HIIT REPUBLIC YAMANTO", "IPSWICH", "MOOLOOLABA", "NOOSAVILLE", "NORMAN PARK (ACTIVE LIFE)",
 		"REDCLIFFE", "SIPPY DOWNS", "SUNNYBANK HILLS (HEALTHWORKS)", "TENERIFFE", "WEST END",
 	},
 	"WA": {

@@ -10,6 +10,7 @@
 
 .location.selected {
     color: green;
+    background: lightgreen;
     font-weight: 800;
 }
 
@@ -17,8 +18,14 @@
     color: grey;
 }
 
-.padding {
-    padding: 4px;
+.workout.selected {
+    color: green;
+    background: lightgreen;
+    font-weight: 800;
+}
+
+.workout.deselected {
+    color: grey;
 }
 
 #save {

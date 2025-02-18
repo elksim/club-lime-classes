@@ -24,6 +24,7 @@
           <option value="NSW">NSW</option>
           <option value="NT">NT</option>
           <option value="WA">SA</option>
+          <option value="QLD">QLD</option>
           <option value="VIC">VIC</option>
           <option value="WA">WA</option>
         </select>
@@ -31,24 +32,25 @@
       <div id="toggleAllLocations" class="item" onclick="handleToggleAllLocationsClick(event)">select all</div>
       <div id="locations" class="item">
       </div>
-      <div id="save" onclick="handleSaveLocations(event)">save</div>
+      <div id="save" onclick="handleSaveLocations(event)">save locations</div>
     </div>
-    <div id="workouts">
+    <div id="workoutsDiv">
     </div>
     <div class="padding"></div>
     <div id="workoutsDiv">
-      <h3> workouts</h3>
+      <h3>workouts</h3>
       <div id="toggleAllWorkouts" class="item" onclick="handleToggleAllWorkoutsClick(event)">select all</div>
+      <div class="padding"></div>
+      <div id="workouts"></div>
+      <div id="save" onclick="handleSaveWorkouts(event)">save workouts</div>
     </div>
-    <div class="padding"></div>
-  </div>
 
-  <script> {{ .Script }} </script>
-  <script>
-    locations = {{ .Locations }}
-    workouts = {{ .Workouts }}
-    stateToLocations = {{ .StateToLocations }}
-  </script>
+    <script>
+      let locations = {{ .Locations }}
+      let workouts = {{ .Workouts }}
+      let stateToLocations = {{ .StateToLocations }}
+    </script>
+    <script> {{ .Script }} </script>
 </body>
 
 </html>

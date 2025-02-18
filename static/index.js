@@ -19,22 +19,29 @@ document.addEventListener("DOMContentLoaded", () => {
    selectedWorkouts = getSetFromLocalStorage("selectedWorkouts");
    selectedLocations = getSetFromLocalStorage("selectedLocations");
 
-   if (selectedWorkouts.size == 0) {
-      selectedWorkouts = new Set([...workouts])
-      saveSetToLocalStorage("selectedWorkouts", selectedWorkouts);
-   }
-   if (selectedLocations.size == 0) {
-      selectedLocations = new Set([...locations])
-      saveSetToLocalStorage("selectedLocations", selectedLocations);
-   }
-   console.log(`selectedWorkouts: `, selectedWorkouts);
-   console.log(`selectedLocations: `, selectedLocations);
-
    let tableEl = document.querySelector("table");
    if (!tableEl) {
-      throw new Error("tableElement not found.");
+      throw new Error();
+   }
+   let emptyTableMessageEl = document.querySelector("#emptyTableMessage");
+   if (!emptyTableMessageEl) {
+      throw new Error();
+   }
+
+   console.log(`selectedWorkouts: `, selectedWorkouts);
+   console.log(`selectedLocations: `, selectedLocations);
+   if (selectedWorkouts.size == 0 || selectedLocations.size == 0) {
+      tableEl.setAttribute("hidden", true);
+      emptyTableMessageEl.removeAttribute("hidden");
+   } else {
+      tableEl.removeAttribute("hidden");
+      emptyTableMessageEl.setAttribute("hidden", true);
    }
    updateTable(tableEl)
+
+   let tableInfoEl = document.querySelector("#tableInfo");
+   tableInfoEl.innerHTML = `<i>showing ${selectedLocations.size}/${locations.length} locations and ${selectedWorkouts.size}/${workouts.length} workouts</i>`
+
 });
 
 /** 
@@ -44,6 +51,8 @@ document.addEventListener("DOMContentLoaded", () => {
 function updateTable(tableEl) {
    const tbody = tableEl.tBodies[0];
    tbody.innerHTML = "";
+
+   console.log(`selectedLocations: `, selectedLocations);
    for (const _class of classes) {
       /** @type {[string, string, string, string, string]} */
       let [date, time, workout, instructor, location] = [_class[0], _class[1], _class[2], _class[3], _class[4]];
