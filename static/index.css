@@ -13,9 +13,20 @@ h3 {
     font-size: 20px;
 }
 
+tr {
+    border: 1px solid grey;
+}
+
+tr:hover:not(.spacerRow) {
+    border: 1px solid grey;
+}
+
+tr.highlighted {
+    background-color: rgba(109, 116, 75, 0.5);
+}
 
 .padding {
-    padding: 4px;
+    padding: 5px;
 }
 
 .container {
@@ -36,4 +47,24 @@ h3 {
 
 #tableInfo {
     font-size: 12px;
+}
+
+span {
+    padding: 0 0 0 10px;
+}
+
+.dateRowCell {
+    text-align: center;
+    height: 50px;
+    font-size: 20px;
+}
+
+.dateRow {
+    margin: 100px;
+    font-weight: 500;
+    outline: 1px solid black;
+}
+
+.spacerRow {
+    height: 20px;
 }

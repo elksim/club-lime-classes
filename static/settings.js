@@ -1,6 +1,7 @@
 console.log(`settings.js run!`);
 
 /** @type {[Set<string>, Set<string>]} */
+// @ts-ignore
 let [selectedWorkouts, selectedLocations] = [new Set(), new Set()];
 
 function saveSetToLocalStorage(key, set) {
@@ -20,7 +21,6 @@ document.addEventListener("DOMContentLoaded", () => {
     populateLocations();
     populateWorkouts();
 })
-
 
 //region: locations
 function populateLocations() {
@@ -109,6 +109,7 @@ function handleSaveLocations(event) {
 
 let toggleWorkoutsOn = true;
 function handleToggleAllWorkoutsClick(event) {
+    /** @type {HTMLElement} */// @ts-ignore
     let workoutsElement = document.querySelector("#workouts");
     if (confirm("are you sure you want to toggle all workouts")) {
         for (const child of workoutsElement.children) {
@@ -117,19 +118,25 @@ function handleToggleAllWorkoutsClick(event) {
                 selectedWorkouts.add(child.innerHTML);
             } else {
                 child.classList.remove("selected");
-                selectedWorkouts.delete(child.innerHTML);
             }
         }
+        if (!toggleWorkoutsOn) {
+            selectedWorkouts.clear();
+        }
+        toggleWorkoutsOn = !toggleWorkoutsOn;
+        event.target.innerHTML = toggleWorkoutsOn ? "select all workouts" : "deselect all workouts";
     }
-    event.target.innerHTML = toggleWorkoutsOn ? "select all workouts" : "deselect all workouts";
-    toggleWorkoutsOn = !toggleWorkoutsOn;
 }
 
 function populateWorkouts() {
     console.log(`xd`);
+    //@ts-ignore
     console.log(`workouts: `, workouts);
+    //@ts-ignore
     console.log(`locations: `, locations);
+    /** @type {HTMLElement} */ // @ts-ignore
     let workoutsEl = document.querySelector("#workouts");
+    //@ts-ignore
     for (const workout of workouts) {
         let newEl = document.createElement("div");
         newEl.classList.add("workout");

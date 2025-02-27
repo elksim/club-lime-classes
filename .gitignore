@@ -8,5 +8,4 @@ dist/
 main_test.go
 
 tmp/
-my_tmp/
-graveyard.txt
+graveyard/

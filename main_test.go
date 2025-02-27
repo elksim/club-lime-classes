@@ -10,7 +10,7 @@ import (
 
 // build index page and write it to file
 func TestBuildIndexPage(t *testing.T) {
-	rawData := fetchRawData()
+	rawData := readLatest()
 	tmp := extractUniqueEntries(rawData)
 	workouts, locations, instructors := marshalStrings(tmp[0]), marshalStrings(tmp[1]), marshalStrings(tmp[2])
 	indexPage := buildIndexPage(rawData, workouts, instructors, locations)

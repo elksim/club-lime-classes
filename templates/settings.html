@@ -14,6 +14,7 @@
     <h1 class="item">settings</h1>
     <a href="/"><i>back to main page</i></a>
     <div class="padding"></div>
+    <h2>select which locations and classes you are interested in</h2>
     <div id="locationsDiv" class="group">
       <h3>locations</h3>
       <div class="item">
@@ -29,9 +30,10 @@
           <option value="WA">WA</option>
         </select>
       </div>
-      <div id="toggleAllLocations" class="item" onclick="handleToggleAllLocationsClick(event)">select all</div>
+      <div id="toggleAllLocations" class="item" onclick="handleToggleAllLocationsClick(event)">select entire state</div>
       <div id="locations" class="item">
       </div>
+      <div class="padding"></div>
       <div id="save" onclick="handleSaveLocations(event)">save locations</div>
     </div>
     <div id="workoutsDiv">
@@ -42,8 +44,11 @@
       <div id="toggleAllWorkouts" class="item" onclick="handleToggleAllWorkoutsClick(event)">select all</div>
       <div class="padding"></div>
       <div id="workouts"></div>
+      <div class="padding"></div>
       <div id="save" onclick="handleSaveWorkouts(event)">save workouts</div>
     </div>
+
+
 
     <script>
       let locations = {{ .Locations }}

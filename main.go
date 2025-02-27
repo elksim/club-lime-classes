@@ -8,9 +8,10 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"path/filepath"
 	"sort"
-	"strings"
 	"text/template"
+	"time"
 )
 
 //go:embed templates/*
@@ -20,19 +21,59 @@ var templates = template.Must(template.ParseFS(templateFiles, "templates/*"))
 //go:embed static/*
 var staticFiles embed.FS
 
-//go:embed data.csv
-var defaultRawDataAsString string
-
-// prevent err is undefined errors
+// 'hack' to prevent err is undefined errors..
 var err error
 
-func fetchRawData() [][]string {
-	reader := csv.NewReader(strings.NewReader(defaultRawDataAsString))
+var rawDataFolder = "data/rawClasses"
+
+// read the latest data from data/
+func readLatest() [][]string {
+	filePath := getLatestRawDataFilePath()
+	file, err := os.ReadFile(filePath)
+	if err != nil {
+		log.Fatal(err)
+	}
+	reader := csv.NewReader(bytes.NewReader(file))
 	data, err := reader.ReadAll()
 	if err != nil {
 		log.Fatal(err)
 	}
 	return data
+}
+
+// return the most recently modified filepath in data/rawClasses/
+func getLatestRawDataFilePath() string {
+	var mostRecentFile string
+	var mostRecentTime time.Time
+
+	err := filepath.WalkDir(rawDataFolder, func(path string, d os.DirEntry, err error) error {
+		if err != nil {
+			return err
+		}
+		if d.IsDir() {
+			return nil
+		}
+
+		info, err := d.Info()
+		if err != nil {
+			return err
+		}
+
+		if info.ModTime().After(mostRecentTime) {
+			mostRecentTime = info.ModTime()
+			mostRecentFile = path
+		}
+		return nil
+	})
+
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	if mostRecentFile == "" {
+		return ""
+	}
+	return mostRecentFile
 }
 
 // returns [workouts, locations, instructors],
@@ -71,28 +112,29 @@ func marshalStrings(data []string) string {
 }
 
 func buildIndexPage(rawData [][]string, workoutsJSON string, instructorsJSON string, locationsJSON string) []byte {
-	tableHeaders := [5]string{"Date", "Time", "Workout", "Instructor", "Location"}
+	tableHeaders := [4]string{"Time", "Workout", "Instructor", "Location"}
 
 	classes, err := json.Marshal(rawData[1:])
 	if err != nil {
 		log.Fatal(err)
 	}
+
 	classesJSON := string(classes)
 
 	tmp, err := staticFiles.ReadFile("static/index.css")
 	if err != nil {
-		log.Fatal()
+		log.Fatal(err)
 	}
 	styleFile := string(tmp)
 
 	tmp, err = staticFiles.ReadFile("static/index.js")
 	if err != nil {
-		log.Fatal()
+		log.Fatal(err)
 	}
 	scriptFile := string(tmp)
 
 	data := struct {
-		TableHeaders [5]string
+		TableHeaders [4]string
 		Classes      string
 		Locations    string
 		Workouts     string
@@ -127,11 +169,10 @@ var (
 )
 
 func update() {
-	rawData := fetchRawData()
+	rawData := readLatest()
 	tmp := extractUniqueEntries(rawData)
 	workoutsJSON, locationsJSON, instructorsJSON = marshalStrings(tmp[0]), marshalStrings(tmp[1]), marshalStrings(tmp[2])
 	cachedIndexTemplate = buildIndexPage(rawData, workoutsJSON, instructorsJSON, locationsJSON)
-
 }
 
 func main() {
@@ -155,19 +196,19 @@ func main() {
 
 		tmp, err := json.Marshal(stateToLocations)
 		if err != nil {
-			log.Fatal()
+			log.Fatal(err)
 		}
 		stateToLocationsJSON := string(tmp)
 
 		tmp, err = staticFiles.ReadFile("static/index.css")
 		if err != nil {
-			log.Fatal()
+			log.Fatal(err)
 		}
 		style := string(tmp)
 
 		tmp, err = staticFiles.ReadFile("static/settings.css")
 		if err != nil {
-			log.Fatal()
+			log.Fatal(err)
 		}
 		style2 := string(tmp)
 

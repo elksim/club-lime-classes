@@ -1,4 +1,5 @@
 .location {
+    padding: 0 10px 0 10px;
     margin: 2px;
     color: grey;
     user-select: none;
@@ -6,6 +7,7 @@
 
 #toggleAllLocations {
     user-select: none;
+    padding: 5px 10px 5px 10px;
 }
 
 .location.selected {
@@ -16,6 +18,13 @@
 
 .location.deselected {
     color: grey;
+}
+
+.workout {
+    padding: 0 10px 0 10px;
+    margin: 2px;
+    color: grey;
+    user-select: none;
 }
 
 .workout.selected {

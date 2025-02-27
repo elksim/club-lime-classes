@@ -11,15 +11,19 @@
 <body>
   <div class="container">
     <h1 class="item">club lime classes</h1>
-    <h2 class="item"><i>not affiliated with club lime in any way - class info from
-        https://www.clublime.com.au/classes/ - classes shown may be cancelled or full (for now) - made by elksim</i>
+    <h2 class="item"><i>
+        Not affiliated with club lime in any way.<br />
+        classes shown may be cancelled or full (for now)<br />
+        class info from https://www.clublime.com.au/classes/<br />
+        made by elksim<br />
+      </i>
     </h2>
     <div><a href="/settings/">settings</a></div>
     <div class="padding"></div>
     <div id="tableInfo"></div>
     <div id="emptyTableMessage" hidden>go to settings and select some locations and workouts that you're interested in.
     </div>
-    <table border="1">
+    <table>
       <thead>
         <tr>{{range .TableHeaders}}<th>{{.}}</th>{{end}}</tr>
       </thead>
@@ -27,9 +31,9 @@
       </tbody>
     </table>
     <script>
-      let classes = {{ .Classes }};
-      let workouts = {{ .Workouts }};
-      let locations = {{ .Locations }};
+      const classes = {{ .Classes }};
+      const workouts = {{ .Workouts }};
+      const locations = {{ .Locations }};
     </script>
     <script type="module"> {{ .Script }} </script>
   </div>
